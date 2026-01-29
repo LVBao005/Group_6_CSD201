@@ -1,0 +1,40 @@
+# NetBeans project-specific
+nbproject/private/
+nbproject/Makefile-genesis.properties
+nbproject/Package-*.bash
+build/
+nbbin/
+dist/
+dist/*
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# User-specific files
+*.swp
+*.bak
+*~
