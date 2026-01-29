@@ -1,43 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
- *
- * @author ASUS
+ * Main demonstration class for Mini Jira Stage 1.
+ * Demonstrates Linked List, Stack, and Queue functionality.
  */
 public class Main {
     public static void main(String[] args) {
-        // 1. Khởi tạo 3 cột riêng biệt
-        JiraColumn todoColumn = new JiraColumn("To Do");
-        JiraColumn doingColumn = new JiraColumn("Doing");
-        JiraColumn doneColumn = new JiraColumn("Done");
+        // Initialize Jira Columns (Linked Lists)
+        JiraColumn todo = new JiraColumn("To Do");
+        JiraColumn doing = new JiraColumn("Doing");
+        JiraColumn done = new JiraColumn("Done");
 
-        System.out.println("--- MINI JIRA BOARD ---");
+        // Initialize Module 1 structures: Stack and Queue
+        ActionStack history = new ActionStack();
+        NotificationQueue notifier = new NotificationQueue();
 
-        // 2. Thêm task vào cột To Do
-        Task task1 = new Task("J-01", "Design Database", "High");
-        Task task2 = new Task("J-02", "Setup API", "Medium");
-        todoColumn.addTask(task1);
-        todoColumn.addTask(task2);
+        System.out.println("=== MINI JIRA: STAGE 1 DEMONSTRATION ===");
+        System.out.println("Module 1: Linked List + Stack + Queue\n");
 
-        // 3. Hiển thị trạng thái bảng lúc đầu
-        todoColumn.displayTasks();
-        doingColumn.displayTasks();
-        doneColumn.displayTasks();
+        // 1. Adding Tasks to To Do column
+        System.out.println("--- Step 1: Adding tasks to 'To Do' ---");
+        todo.addTask(new Task("JIRA-101", "Implement Linked List", "High"));
+        todo.addTask(new Task("JIRA-102", "Implement Stack", "Medium"));
+        todo.addTask(new Task("JIRA-103", "Implement Queue", "Medium"));
+        notifier.enqueue("Tasks JIRA-101, 102, 103 created.");
+        todo.displayTasks();
 
-        // 4. DEMO: Di chuyển Task 1 từ To Do sang Doing
-        // (Trong Linked List: Xóa ở List này và thêm vào List kia)
-        System.out.println("\n>>> Action: Moving J-01 from TO DO to DOING...");
-        
-        todoColumn.removeFirst(); // Xóa J-01 khỏi To Do
-        doingColumn.addTask(task1); // Thêm J-01 vào Doing
+        // 2. Moving Task from To Do -> Doing
+        System.out.println("\n--- Step 2: Moving JIRA-101 to 'Doing' ---");
+        Task t1 = todo.findAndRemoveTask("JIRA-101");
+        if (t1 != null) {
+            doing.addTask(t1);
+            history.pushAction("Moved " + t1.getId() + " from To Do to Doing");
+            notifier.enqueue(t1.getId() + " is now in progress.");
+            System.out.println("✓ Task moved successfully");
+        }
 
-        // 5. Hiển thị lại bảng sau khi di chuyển
-        System.out.println("\n--- UPDATED JIRA BOARD ---");
-        todoColumn.displayTasks();
-        doingColumn.displayTasks();
-        doneColumn.displayTasks();
+        todo.displayTasks();
+        doing.displayTasks();
+
+        // 3. Completing Task: Doing -> Done
+        System.out.println("\n--- Step 3: Completing JIRA-101 ---");
+        Task tDone = doing.findAndRemoveTask("JIRA-101");
+        if (tDone != null) {
+            done.addTask(tDone);
+            history.pushAction("Moved " + tDone.getId() + " from Doing to Done");
+            notifier.enqueue(tDone.getId() + " completed!");
+            System.out.println("✓ Task completed");
+        }
+
+        doing.displayTasks();
+        done.displayTasks();
+
+        // 4. Display Stack and Queue
+        history.displayHistory();
+        notifier.displayNotifications();
+
+        System.out.println("\n=== STAGE 1 DEMONSTRATION COMPLETE ===");
     }
 }
