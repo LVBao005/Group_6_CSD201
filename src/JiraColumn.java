@@ -40,6 +40,20 @@ public class JiraColumn {
         current.setNext(newNode);
     }
 
+    // Find a task by ID (for benchmarking search)
+    public Task searchTask(String taskId) {
+        if (head == null || taskId == null)
+            return null;
+        TaskNode current = head;
+        while (current != null) {
+            if (current.getData() != null && taskId.equals(current.getData().getId())) {
+                return current.getData();
+            }
+            current = current.getNext();
+        }
+        return null;
+    }
+
     // Find and remove a task by ID (for moving tasks between columns)
     public Task findAndRemoveTask(String taskId) {
         if (head == null || taskId == null)
