@@ -34,6 +34,9 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
+TT.md
+run.bat
+
 # User-specific files
 *.swp
 *.bak
