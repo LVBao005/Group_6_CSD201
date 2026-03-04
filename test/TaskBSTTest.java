@@ -1,143 +1,206 @@
-/**
- * Standalone Test Suite for TaskBST.
- * Tests all core functionalities and prints detailed results to console.
- */
 public class TaskBSTTest {
     private static int testsPassed = 0;
     private static int totalTests = 0;
 
     public static void main(String[] args) {
-        System.out.println("==============================================");
-        System.out.println("       TASK BST - UNIT TEST SUITE            ");
-        System.out.println("==============================================\n");
+        System.out.println("========================================================");
+        System.out.println("            TASK BST - MANUAL TEST (CHI TIET)");
+        System.out.println("========================================================");
 
-        runTest("Empty Tree State", TaskBSTTest::testEmptyTree);
-        runTest("Insert and Search", TaskBSTTest::testInsertAndSearch);
-        runTest("Insert Duplicate ID", TaskBSTTest::testInsertDuplicateId);
-        runTest("Delete Leaf Node", TaskBSTTest::testDeleteLeaf);
-        runTest("Delete One Child Node", TaskBSTTest::testDeleteOneChild);
-        runTest("Delete Two Children Node", TaskBSTTest::testDeleteTwoChildren);
-        runTest("Tree Height Calculation", TaskBSTTest::testGetHeight);
+        runTest("TC01 - Empty Tree State", TaskBSTTest::testEmptyTree);
+        runTest("TC02 - Insert and Search", TaskBSTTest::testInsertAndSearch);
+        runTest("TC03 - Insert Duplicate ID", TaskBSTTest::testInsertDuplicateId);
+        runTest("TC04 - Delete Leaf Node", TaskBSTTest::testDeleteLeaf);
+        runTest("TC05 - Delete Node with One Child", TaskBSTTest::testDeleteOneChild);
+        runTest("TC06 - Delete Node with Two Children", TaskBSTTest::testDeleteTwoChildren);
+        runTest("TC07 - Height Calculation", TaskBSTTest::testGetHeight);
 
         printSummary();
     }
 
     private static void runTest(String testName, Runnable testMethod) {
         totalTests++;
-        System.out.print("Testing: " + testName + "... ");
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+        System.out.println(testName);
+        System.out.println("--------------------------------------------------------");
         try {
             testMethod.run();
-            System.out.println(" [PASSED]");
+            System.out.println("=> KET LUAN: PASS");
             testsPassed++;
         } catch (Throwable e) {
-            System.out.println(" [FAILED]");
-            System.err.println("   Error: " + e.getMessage());
-            // Uncomment next line for detailed stack trace during debugging
-            // e.printStackTrace();
+            System.out.println("=> KET LUAN: FAIL");
+            System.out.println("   Ly do: " + e.getMessage());
         }
     }
 
     private static void printSummary() {
-        System.out.println("\n==============================================");
-        System.out.println("                TEST SUMMARY                ");
-        System.out.println("==============================================");
-        System.out.printf("  Total Tests:  %d\n", totalTests);
-        System.out.printf("  Passed:       %d\n", testsPassed);
-        System.out.printf("  Failed:       %d\n", (totalTests - testsPassed));
-        System.out.println("==============================================");
-        if (testsPassed == totalTests) {
-            System.out.println("  ✓ ALL TESTS PASSED SUCCESSFULLY!          ");
-        } else {
-            System.out.println("  ✗ SOME TESTS FAILED. CHECK LOGS ABOVE.     ");
-        }
-        System.out.println("==============================================");
+        System.out.println();
+        System.out.println("========================================================");
+        System.out.println("                       SUMMARY");
+        System.out.println("========================================================");
+        System.out.println("Tong so test: " + totalTests);
+        System.out.println("PASS: " + testsPassed);
+        System.out.println("FAIL: " + (totalTests - testsPassed));
+        System.out.println("========================================================");
     }
 
-    // --- Assertions Helpers ---
-
-    private static void assertEquals(Object expected, Object actual, String message) {
-        if (expected == null && actual == null)
-            return;
-        if (expected != null && expected.equals(actual))
-            return;
-        throw new RuntimeException(message + " (Expected: " + expected + ", Actual: " + actual + ")");
+    private static void printInput(String description) {
+        System.out.println("[Input] " + description);
     }
 
-    private static void assertEquals(int expected, int actual, String message) {
-        if (expected == actual)
-            return;
-        throw new RuntimeException(message + " (Expected: " + expected + ", Actual: " + actual + ")");
+    private static void printOutput(String description) {
+        System.out.println("[Output] " + description);
     }
 
-    private static void assertNull(Object actual, String message) {
-        if (actual == null)
-            return;
-        throw new RuntimeException(message + " (Expected: null, Actual: " + actual + ")");
+    private static String describeTask(Task task) {
+        return task == null ? "null" : task.toString();
     }
 
-    private static void assertNotNull(Object actual, String message) {
-        if (actual != null)
-            return;
-        throw new RuntimeException(message + " (Expected: NOT null)");
+    private static boolean checkEquals(String label, Object expected, Object actual) {
+        boolean pass = (expected == null) ? actual == null : expected.equals(actual);
+        System.out.println("  - " + label);
+        System.out.println("    Expected: " + expected);
+        System.out.println("    Actual  : " + actual);
+        System.out.println("    Result  : " + (pass ? "PASS" : "FAIL"));
+        return pass;
     }
 
-    // --- Test Methods ---
+    private static boolean checkNull(String label, Object actual) {
+        boolean pass = actual == null;
+        System.out.println("  - " + label);
+        System.out.println("    Expected: null");
+        System.out.println("    Actual  : " + actual);
+        System.out.println("    Result  : " + (pass ? "PASS" : "FAIL"));
+        return pass;
+    }
+
+    private static boolean checkNotNull(String label, Object actual) {
+        boolean pass = actual != null;
+        System.out.println("  - " + label);
+        System.out.println("    Expected: not null");
+        System.out.println("    Actual  : " + actual);
+        System.out.println("    Result  : " + (pass ? "PASS" : "FAIL"));
+        return pass;
+    }
 
     private static void testEmptyTree() {
         TaskBST bst = new TaskBST();
-        assertEquals(0, bst.getHeight(), "Height of empty tree should be 0");
-        assertNull(bst.search("ANY-ID"), "Search in empty tree should return null");
+        printInput("BST moi tao, chua insert task nao.");
+
+        int height = bst.getHeight();
+        Task found = bst.search("ANY-ID");
+
+        printOutput("getHeight() = " + height);
+        printOutput("search(\"ANY-ID\") = " + describeTask(found));
+
+        boolean ok = true;
+        ok &= checkEquals("Height of empty tree", 0, height);
+        ok &= checkNull("Search in empty tree", found);
+        if (!ok) {
+            throw new RuntimeException("Co dieu kien khong dat.");
+        }
     }
 
     private static void testInsertAndSearch() {
         TaskBST bst = new TaskBST();
         Task t1 = new Task("T1", "Task 1", "High");
         Task t2 = new Task("T2", "Task 2", "Medium");
-        Task t3 = new Task("T0", "Task 0", "Low");
+        Task t0 = new Task("T0", "Task 0", "Low");
 
+        printInput("Insert lan luot: " + t1 + ", " + t2 + ", " + t0);
         bst.insert(t1);
         bst.insert(t2);
-        bst.insert(t3);
+        bst.insert(t0);
 
-        assertNotNull(bst.search("T1"), "Should find T1");
-        assertNotNull(bst.search("T2"), "Should find T2");
-        assertNotNull(bst.search("T0"), "Should find T0");
-        assertEquals("Task 1", bst.search("T1").getTitle(), "Incorrect title for T1");
-        assertNull(bst.search("T4"), "Should not find non-existent ID");
+        Task r1 = bst.search("T1");
+        Task r2 = bst.search("T2");
+        Task r0 = bst.search("T0");
+        Task r4 = bst.search("T4");
+
+        printOutput("search(\"T1\") = " + describeTask(r1));
+        printOutput("search(\"T2\") = " + describeTask(r2));
+        printOutput("search(\"T0\") = " + describeTask(r0));
+        printOutput("search(\"T4\") = " + describeTask(r4));
+
+        boolean ok = true;
+        ok &= checkNotNull("Find T1", r1);
+        ok &= checkNotNull("Find T2", r2);
+        ok &= checkNotNull("Find T0", r0);
+        ok &= checkEquals("Title of T1", "Task 1", r1 == null ? null : r1.getTitle());
+        ok &= checkNull("Find non-existing T4", r4);
+        if (!ok) {
+            throw new RuntimeException("Co dieu kien khong dat.");
+        }
     }
 
     private static void testInsertDuplicateId() {
         TaskBST bst = new TaskBST();
-        Task t1 = new Task("T1", "Task 1", "High");
-        Task t1Dup = new Task("T1", "Task 1 Duplicate", "Low");
+        Task original = new Task("T1", "Task 1", "High");
+        Task duplicate = new Task("T1", "Task 1 Duplicate", "Low");
 
-        bst.insert(t1);
-        bst.insert(t1Dup);
+        printInput("Insert original: " + original);
+        bst.insert(original);
+        printInput("Insert duplicate (same ID): " + duplicate);
+        bst.insert(duplicate);
 
         Task result = bst.search("T1");
-        assertEquals("Task 1", result.getTitle(), "BST should keep the original task when duplicate ID is inserted");
+        printOutput("search(\"T1\") sau khi insert duplicate = " + describeTask(result));
+
+        boolean ok = true;
+        ok &= checkNotNull("T1 still exists", result);
+        ok &= checkEquals("Original data is preserved", "Task 1", result == null ? null : result.getTitle());
+        if (!ok) {
+            throw new RuntimeException("Co dieu kien khong dat.");
+        }
     }
 
     private static void testDeleteLeaf() {
         TaskBST bst = new TaskBST();
         Task t1 = new Task("T1", "Task 1", "High");
         bst.insert(t1);
+
+        printInput("Ban dau co 1 node: " + t1 + ", sau do delete(\"T1\").");
         bst.delete("T1");
-        assertNull(bst.search("T1"), "Task T1 should be deleted");
-        assertEquals(0, bst.getHeight(), "Tree height should be 0 after deleting only node");
+
+        Task found = bst.search("T1");
+        int height = bst.getHeight();
+        printOutput("search(\"T1\") = " + describeTask(found));
+        printOutput("getHeight() = " + height);
+
+        boolean ok = true;
+        ok &= checkNull("T1 deleted", found);
+        ok &= checkEquals("Height after deleting only node", 0, height);
+        if (!ok) {
+            throw new RuntimeException("Co dieu kien khong dat.");
+        }
     }
 
     private static void testDeleteOneChild() {
         TaskBST bst = new TaskBST();
         Task t2 = new Task("T2", "Task 2", "Medium");
         Task t1 = new Task("T1", "Task 1", "High");
+
+        printInput("Insert root " + t2 + " va node con trai " + t1 + ", sau do delete(\"T2\").");
         bst.insert(t2);
         bst.insert(t1);
-
         bst.delete("T2");
-        assertNull(bst.search("T2"), "T2 should be deleted");
-        assertNotNull(bst.search("T1"), "T1 should still exist");
-        assertEquals(1, bst.getHeight(), "Height should be 1 after deleting root with one child");
+
+        Task rootDeleted = bst.search("T2");
+        Task childRemain = bst.search("T1");
+        int height = bst.getHeight();
+
+        printOutput("search(\"T2\") = " + describeTask(rootDeleted));
+        printOutput("search(\"T1\") = " + describeTask(childRemain));
+        printOutput("getHeight() = " + height);
+
+        boolean ok = true;
+        ok &= checkNull("T2 deleted", rootDeleted);
+        ok &= checkNotNull("T1 remains", childRemain);
+        ok &= checkEquals("Height after delete root with one child", 1, height);
+        if (!ok) {
+            throw new RuntimeException("Co dieu kien khong dat.");
+        }
     }
 
     private static void testDeleteTwoChildren() {
@@ -146,31 +209,60 @@ public class TaskBSTTest {
         Task t1 = new Task("T1", "Task 1", "High");
         Task t3 = new Task("T3", "Task 3", "Low");
 
+        printInput("Insert 3 node: " + t2 + " (root), " + t1 + " (left), " + t3 + " (right); delete(\"T2\").");
         bst.insert(t2);
         bst.insert(t1);
         bst.insert(t3);
-
         bst.delete("T2");
-        assertNull(bst.search("T2"), "T2 should be deleted");
-        assertNotNull(bst.search("T1"), "T1 should still exist");
-        assertNotNull(bst.search("T3"), "T3 should still exist");
-        assertEquals(2, bst.getHeight(), "Height should be 2 after deleting root with two children");
+
+        Task deleted = bst.search("T2");
+        Task left = bst.search("T1");
+        Task right = bst.search("T3");
+        int height = bst.getHeight();
+
+        printOutput("search(\"T2\") = " + describeTask(deleted));
+        printOutput("search(\"T1\") = " + describeTask(left));
+        printOutput("search(\"T3\") = " + describeTask(right));
+        printOutput("getHeight() = " + height);
+
+        boolean ok = true;
+        ok &= checkNull("T2 deleted", deleted);
+        ok &= checkNotNull("T1 remains", left);
+        ok &= checkNotNull("T3 remains", right);
+        ok &= checkEquals("Height after delete root with two children", 2, height);
+        if (!ok) {
+            throw new RuntimeException("Co dieu kien khong dat.");
+        }
     }
 
     private static void testGetHeight() {
         TaskBST bst = new TaskBST();
-        assertEquals(0, bst.getHeight(), "Empty height check");
+        printInput("Insert theo thu tu: M, A, Z, B va theo doi chieu cao moi buoc.");
 
+        int h0 = bst.getHeight();
         bst.insert(new Task("M", "Middle", "Medium"));
-        assertEquals(1, bst.getHeight(), "Height with 1 node");
-
+        int h1 = bst.getHeight();
         bst.insert(new Task("A", "Left", "Low"));
-        assertEquals(2, bst.getHeight(), "Height with 2 nodes (left biased)");
-
+        int h2 = bst.getHeight();
         bst.insert(new Task("Z", "Right", "High"));
-        assertEquals(2, bst.getHeight(), "Height with 3 nodes (balanced)");
-
+        int h3 = bst.getHeight();
         bst.insert(new Task("B", "Left-Right", "Low"));
-        assertEquals(3, bst.getHeight(), "Height with 4 nodes (deeper branch)");
+        int h4 = bst.getHeight();
+
+        printOutput("Height ban dau = " + h0);
+        printOutput("Height sau insert M = " + h1);
+        printOutput("Height sau insert A = " + h2);
+        printOutput("Height sau insert Z = " + h3);
+        printOutput("Height sau insert B = " + h4);
+
+        boolean ok = true;
+        ok &= checkEquals("Empty tree height", 0, h0);
+        ok &= checkEquals("Height with 1 node", 1, h1);
+        ok &= checkEquals("Height with 2 nodes (left)", 2, h2);
+        ok &= checkEquals("Height with 3 nodes (balanced)", 2, h3);
+        ok &= checkEquals("Height with deeper branch", 3, h4);
+        if (!ok) {
+            throw new RuntimeException("Co dieu kien khong dat.");
+        }
     }
 }
