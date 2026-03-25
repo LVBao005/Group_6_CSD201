@@ -2,7 +2,8 @@
 
 Group:
 | Name | MSSV |
-| Lê Văn Bảo | QE190130
+|------|------|
+| Lê Văn Bảo | QE190130 |
 | Trần Anh Quân | QE180116 |
 
 
@@ -113,4 +114,4 @@ Dự án thực hiện cho môn **CSD201 - Data Structures and Algorithms**.
 Triết lý: DSA kết hợp AI-Assisted Coding (PBL).
 
 ## GitHub
-[https://github.com/Group6_CSD201_MiniJira](https://github.com/Group6_CSD201_MiniJira)
+[https://github.com/LVBao005/Group_6_CSD201](https://github.com/LVBao005/Group_6_CSD201)
